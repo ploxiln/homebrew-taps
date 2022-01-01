@@ -1,9 +1,9 @@
-class Vimp < Formula
+class Vim < Formula
   desc "Vi 'workalike' with many additional features (Pierce's build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v8.2.3700.tar.gz"
-  sha256 "c6ec0fbfc1493c4538050cc154c6285441ad4a5ebc424ab6cad33df0eac89ba9"
+  url "https://github.com/vim/vim/archive/v8.2.3950.tar.gz"
+  sha256 "99549c90d0c57b0b8cebeb761ced3b762174baede2ccc2cdbcb2df3101a0f9fa"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
 
@@ -11,7 +11,7 @@ class Vimp < Formula
   depends_on "lua"
   depends_on "ncurses"
   #depends_on "perl"
-  #depends_on "python@3.9"
+  #depends_on "python@3.10"
   #depends_on "ruby"
 
   conflicts_with "vimp",
@@ -24,7 +24,7 @@ class Vimp < Formula
     because: "vim and macvim both install vi* binaries"
 
   def install
-    #ENV.prepend_path "PATH", Formula["python@3.9"].opt_libexec/"bin"
+    #ENV.prepend_path "PATH", Formula["python@3.10"].opt_libexec/"bin"
 
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
