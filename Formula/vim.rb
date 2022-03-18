@@ -14,9 +14,6 @@ class Vim < Formula
   #depends_on "python@3.10"
   #depends_on "ruby"
 
-  conflicts_with "vimp",
-    because: "this is Pierce's custom build of vim"
-
   conflicts_with "ex-vi",
     because: "vim and ex-vi both install bin/ex and bin/view"
 
