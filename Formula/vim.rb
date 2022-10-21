@@ -2,10 +2,19 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features (Pierce's build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v8.2.4500.tar.gz"
-  sha256 "9fd0341a5c93c439a06f0eb9b036f9ac5b1eb6495ee54491d7367a5c17be5841"
+  url "https://github.com/vim/vim/archive/v9.0.0750.tar.gz"
+  sha256 "7fa6b8f36fbe972dd369af91d92340d9aa247a812ae856e1795802920a906edf"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
+
+  # The Vim repository contains thousands of tags and the `Git` strategy isn't
+  # ideal in this context. This is an exceptional situation, so this checks the
+  # first page of tags on GitHub (to minimize data transfer).
+  livecheck do
+    url "https://github.com/vim/vim/tags"
+    regex(%r{href=["']?[^"' >]*?/tag/v?(\d+(?:\.\d+)+)["' >]}i)
+    strategy :page_match
+  end
 
   depends_on "gettext"
   depends_on "lua"
@@ -45,7 +54,7 @@ class Vim < Formula
                           #"--enable-perlinterp",
                           #"--enable-rubyinterp",
                           #"--enable-python3interp",
-                          "--enable-gui=no",
+                          "--disable-gui",
                           "--without-x",
                           "--enable-luainterp",
                           "--with-lua-prefix=#{Formula["lua"].opt_prefix}"
