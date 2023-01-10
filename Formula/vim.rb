@@ -2,8 +2,8 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features (Pierce's build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v9.0.0750.tar.gz"
-  sha256 "7fa6b8f36fbe972dd369af91d92340d9aa247a812ae856e1795802920a906edf"
+  url "https://github.com/vim/vim/archive/v9.0.1150.tar.gz"
+  sha256 "aaa03eaeb68e8ee39137c5ffb8d41b4cce58f53860724829aba6385454b98c69"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
 
@@ -20,7 +20,7 @@ class Vim < Formula
   depends_on "lua"
   depends_on "ncurses"
   #depends_on "perl"
-  #depends_on "python@3.10"
+  #depends_on "python@3.11"
   #depends_on "ruby"
 
   conflicts_with "ex-vi",
@@ -29,8 +29,14 @@ class Vim < Formula
   conflicts_with "macvim",
     because: "vim and macvim both install vi* binaries"
 
+  # fixes build issue with 9.0.1150, remove after next release
+  patch do
+    url "https://github.com/vim/vim/commit/5bcd29b84e4dd6435177f37a544ecbf8df02412c.patch?full_index=1"
+    sha256 "6d1ae23897088cc13b31ac22f268e74fa063364b7c9a892dbee32397d4d62faf"
+  end
+
   def install
-    #ENV.prepend_path "PATH", Formula["python@3.10"].opt_libexec/"bin"
+    #ENV.prepend_path "PATH", Formula["python@3.11"].opt_libexec/"bin"
 
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
