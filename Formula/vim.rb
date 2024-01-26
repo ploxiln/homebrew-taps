@@ -1,9 +1,9 @@
 class Vim < Formula
-  desc "Vi 'workalike' with many additional features (Pierce's build)"
+  desc "Vi 'workalike' with many additional features (ploxiln build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v9.0.1400.tar.gz"
-  sha256 "b22586082b5c9c3d31e6830f787b425d114b23d9b6a195bcbd9c2c2a4a30ac49"
+  url "https://github.com/vim/vim/archive/refs/tags/v9.0.2150.tar.gz"
+  sha256 "3d4c1b2bddaf9f5e29ebdab1447d030de77853f504063e69979c8e41580c6d8d"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
 
@@ -17,11 +17,16 @@ class Vim < Formula
   end
 
   depends_on "gettext"
+  depends_on "libsodium"
   depends_on "lua"
   depends_on "ncurses"
   #depends_on "perl"
-  #depends_on "python@3.11"
+  #depends_on "python@3.12"
   #depends_on "ruby"
+
+  on_linux do
+    depends_on "acl"
+  end
 
   conflicts_with "ex-vi",
     because: "vim and ex-vi both install bin/ex and bin/view"
@@ -30,7 +35,7 @@ class Vim < Formula
     because: "vim and macvim both install vi* binaries"
 
   def install
-    #ENV.prepend_path "PATH", Formula["python@3.11"].opt_libexec/"bin"
+    #ENV.prepend_path "PATH", Formula["python@3.12"].opt_libexec/"bin"
 
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
@@ -70,12 +75,13 @@ class Vim < Formula
   end
 
   test do
-    #(testpath/"commands.vim").write <<~EOS
-    #  :python3 import vim; vim.current.buffer[0] = 'hello python3'
-    #  :wq
-    #EOS
-    #system bin/"vim", "-T", "dumb", "-s", "commands.vim", "test.txt"
-    #assert_equal "hello python3", File.read("test.txt").chomp
+    (testpath/"commands.vim").write <<~EOS
+      :lua vim.buffer()[1] = 'hello python3'
+      :wq
+    EOS
+    system bin/"vim", "-T", "dumb", "-s", "commands.vim", "test.txt"
+    assert_equal "hello python3", File.read("test.txt").chomp
     assert_match "+gettext", shell_output("#{bin}/vim --version")
+    assert_match "+sodium", shell_output("#{bin}/vim --version")
   end
 end
