@@ -2,18 +2,26 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features (ploxiln build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/refs/tags/v9.0.2150.tar.gz"
-  sha256 "3d4c1b2bddaf9f5e29ebdab1447d030de77853f504063e69979c8e41580c6d8d"
+  url "https://github.com/vim/vim/archive/refs/tags/v9.1.0250.tar.gz"
+  sha256 "3dab68543cd29666cdead4d1a032b8346beec722c72c20ccdafc7b25566b7047"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
 
   # The Vim repository contains thousands of tags and the `Git` strategy isn't
   # ideal in this context. This is an exceptional situation, so this checks the
-  # first page of tags on GitHub (to minimize data transfer).
+  # first 50 tags using the GitHub API (to minimize data transfer).
   livecheck do
-    url "https://github.com/vim/vim/tags"
-    regex(%r{href=["']?[^"' >]*?/tag/v?(\d+(?:\.\d+)+)["' >]}i)
-    strategy :page_match
+    url "https://api.github.com/repos/vim/vim/tags?per_page=50"
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+    strategy :json do |json, regex|
+      json.map do |tag|
+        match = tag["name"]&.match(regex)
+        next if match.blank?
+
+        match[1]
+      end
+    end
+    throttle 50
   end
 
   depends_on "gettext"
