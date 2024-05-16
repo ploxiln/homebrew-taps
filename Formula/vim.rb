@@ -2,8 +2,8 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features (ploxiln build)"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/refs/tags/v9.1.0250.tar.gz"
-  sha256 "3dab68543cd29666cdead4d1a032b8346beec722c72c20ccdafc7b25566b7047"
+  url "https://github.com/vim/vim/archive/refs/tags/v9.1.0400.tar.gz"
+  sha256 "99cf952936aab2493f287c93aff2b0efadf903bdc8bd76d5010ac33bce854975"
   license "Vim"
   head "https://github.com/vim/vim.git", branch: "master"
 
@@ -28,9 +28,9 @@ class Vim < Formula
   depends_on "libsodium"
   depends_on "lua"
   depends_on "ncurses"
-  #depends_on "perl"
-  #depends_on "python@3.12"
-  #depends_on "ruby"
+  # depends_on "perl"
+  # depends_on "python@3.12"
+  # depends_on "ruby"
 
   on_linux do
     depends_on "acl"
@@ -43,7 +43,7 @@ class Vim < Formula
     because: "vim and macvim both install vi* binaries"
 
   def install
-    #ENV.prepend_path "PATH", Formula["python@3.12"].opt_libexec/"bin"
+    # ENV.prepend_path "PATH", Formula["python@3.12"].opt_libexec/"bin"
 
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
@@ -64,9 +64,9 @@ class Vim < Formula
                           "--with-compiledby=Homebrew",
                           "--enable-cscope",
                           "--enable-terminal",
-                          #"--enable-perlinterp",
-                          #"--enable-rubyinterp",
-                          #"--enable-python3interp",
+                          # "--enable-perlinterp",
+                          # "--enable-rubyinterp",
+                          # "--enable-python3interp",
                           "--disable-gui",
                           "--without-x",
                           "--enable-luainterp",
